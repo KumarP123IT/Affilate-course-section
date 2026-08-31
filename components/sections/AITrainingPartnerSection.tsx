@@ -8,32 +8,34 @@
  * on your homepage where you want it to appear on scroll.
  *
  * Self-contained on purpose:
- * - Colors are inline Tailwind arbitrary values (ash/graphite/obsidian +
- *   gold for the offer only) so it doesn't depend on any theme tokens
- *   already defined in your project.
+ * - Colors are inline Tailwind arbitrary values, all drawn from one ash/
+ *   obsidian/brass token set (see comment below), so it doesn't depend on
+ *   any theme tokens already defined in your project.
  * - Analytics is a tiny local gtag wrapper — if window.gtag already exists
  *   on your site (Google Analytics 4), events fire automatically. If not,
  *   calls are silent no-ops. No extra imports required.
  * - Needs only `lucide-react` as a dependency (npm i lucide-react if you
- *   don't already have it).
+ *   don't already have it). The display typeface (Fraunces) is loaded via
+ *   a scoped @import, so no next/font setup is required either.
+ *
+ * ---------------------------------------------------------------------
+ * Design tokens (for reference — used as literal hex values below)
+ * ---------------------------------------------------------------------
+ * obsidian (page bg)       #0a0a0b
+ * panel (surface)          #121214
+ * panel-raised (stub)      #17171a
+ * line (hairline border)   #27272b
+ * ash-100 (headline)       #eeece7
+ * ash-300 (body)           #c3c1ba
+ * ash-500 (meta/kicker)    #8a8883
+ * ash-700 (ghost mark)     #1c1c1f
+ * brass (offer accent)     #b7986a
  *
  * Edit the PARTNER object below with your real content before shipping.
  */
 
 import { useState } from "react";
-import {
-  ArrowUpRight,
-  BadgeCheck,
-  Bot,
-  Check,
-  Copy,
-  Cpu,
-  Network,
-  Sparkles,
-  Tag,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight, Check, Copy, Tag } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // Content — edit these fields with your real partner details.
@@ -41,10 +43,10 @@ import {
 const PARTNER = {
   id: "omkar-ai-innovation",
   name: "Omkar AI Innovation",
-  tagline: "Our official AI training partner",
-  logo: "/partners/omkar-ai-innovation.svg", // EDIT ME — path to the real logo under /public
+  tagline: "Official training partner",
+  logo: "/partners/omkar-ai-innovation.svg", // path to the real logo under /public
   description:
-    "Omkar AI Innovation delivers practical, industry-aligned training in AI, automation, and modern web development through structured lessons and hands-on projects. It's well suited for students, early-career developers, and working professionals looking to break into AI-driven roles.",
+    "Omkar AI Innovation offers practical, hands-on training in AI, automation, and modern web development — ideal for students and professionals looking to break into AI-driven roles.",
   website: "https://www.omkaraiinnovation.com/courses",
   highlights: [
     "Practical, project-based curriculum in AI, automation & web development",
@@ -52,7 +54,7 @@ const PARTNER = {
     "Certificate of completion recognized by the partner institute",
   ],
   promoCode: "EDITME20",
-  promoDescription: "Use this code to get an exclusive discount on any Omkar AI Innovation course, available to visitors of our site.",
+  promoDescription: "Use this code to get an exclusive discount on any Omkar AI Innovation course.",
 };
 
 // ---------------------------------------------------------------------------
@@ -82,39 +84,38 @@ export default function AITrainingPartnerSection() {
     <section
       id="ai-learning-partner"
       aria-labelledby="ai-learning-partner-heading"
-      className="relative overflow-hidden bg-[#0a0a0b] py-24"
+      className="relative overflow-hidden bg-[#0a0a0b] py-28"
     >
-      <SectionBackground />
+      <FontImport />
+      <SectionTexture />
 
       <div className="relative mx-auto max-w-6xl px-6">
-        <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#3a3a3e] bg-[#151517] px-3 py-1 text-xs font-medium text-[#c9c9c4]">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            AI learning partner program
-          </span>
+        <div className="max-w-xl">
+          <p className="text-sm text-[#8a8883]">Training partner</p>
 
           <h2
             id="ai-learning-partner-heading"
-            className="mt-6 text-3xl font-semibold tracking-tight text-[#f2f2ef] sm:text-4xl"
+            className="mt-5 text-4xl font-normal leading-[1.15] tracking-tight text-[#eeece7] sm:text-[2.75rem]"
+            style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
           >
             Learn the AI skills teams are hiring for
           </h2>
 
-          <p className="mt-4 text-lg leading-relaxed text-[#9a9a96]">
+          <p className="mt-5 text-[17px] leading-relaxed text-[#8a8883]">
             We&apos;ve partnered with {PARTNER.name} to bring you a focused, practical path into
-            applied AI — one vetted program, plus an exclusive discount for our visitors.
+            applied AI, plus an exclusive discount for our visitors.
           </p>
         </div>
 
-        <div className="mt-12">
-          <PartnerCard />
+        <div className="mt-14">
+          <PartnerPanel />
         </div>
       </div>
     </section>
   );
 }
 
-function PartnerCard() {
+function PartnerPanel() {
   function handleVisit() {
     track("partner_website_click", {
       partner_id: PARTNER.id,
@@ -123,35 +124,47 @@ function PartnerCard() {
     });
   }
 
+  const monogram = PARTNER.name.charAt(0);
+
   return (
-    <div className="grid overflow-hidden rounded-2xl border border-[#29292d] bg-[#131315] lg:grid-cols-5">
-      <div className="flex flex-col justify-center px-6 py-8 sm:px-10 sm:py-10 lg:col-span-3">
+    <div className="relative grid overflow-hidden rounded-[6px] border border-[#27272b] bg-[#121214] lg:grid-cols-5">
+      {/* faint monogram watermark, grounded in the partner's own initial */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-6 -top-16 select-none text-[15rem] leading-none text-[#1c1c1f]"
+        style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+      >
+        {monogram}
+      </span>
+
+      <div className="relative flex flex-col justify-center px-7 py-10 sm:px-10 sm:py-12 lg:col-span-3">
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-[#29292d] bg-[#1b1b1e]">
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-[4px] border border-[#27272b] bg-[#eeece7]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={PARTNER.logo}
               alt=""
               aria-hidden="true"
-              className="h-8 w-8 object-contain"
+              className="h-7 w-7 object-contain"
               loading="lazy"
             />
           </div>
           <div>
-            <p className="flex items-center gap-1.5 text-sm font-medium text-[#c9c9c4]">
-              <BadgeCheck className="h-4 w-4" aria-hidden="true" />
-              {PARTNER.tagline}
-            </p>
-            <h3 className="text-2xl font-semibold text-[#f2f2ef]">{PARTNER.name}</h3>
+            <p className="text-[13px] text-[#8a8883]">{PARTNER.tagline}</p>
+            <h3 className="text-xl font-medium text-[#eeece7]">{PARTNER.name}</h3>
           </div>
         </div>
 
-        <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-[#9a9a96]">{PARTNER.description}</p>
+        <p className="mt-7 max-w-md text-[15px] leading-relaxed text-[#c3c1ba]">
+          {PARTNER.description}
+        </p>
 
-        <ul className="mt-6 flex flex-col gap-2.5">
-          {PARTNER.highlights.map((point) => (
-            <li key={point} className="flex items-start gap-2.5 text-sm text-[#e5e5e1]">
-              <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#9a9a96]" />
+        <ul className="mt-7 flex flex-col">
+          {PARTNER.highlights.map((point, i) => (
+            <li
+              key={point}
+              className={`py-3 text-sm text-[#c3c1ba] ${i !== 0 ? "border-t border-[#1e1e21]" : ""}`}
+            >
               {point}
             </li>
           ))}
@@ -162,7 +175,7 @@ function PartnerCard() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleVisit}
-          className="mt-8 inline-flex w-fit items-center gap-2 rounded-lg bg-[#ededea] px-5 py-3 text-sm font-semibold text-[#0a0a0b] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ededea] focus-visible:ring-offset-2 focus-visible:ring-offset-[#131315]"
+          className="mt-9 inline-flex w-fit items-center gap-2 rounded-[4px] border border-[#3a3a3e] px-5 py-3 text-sm font-medium text-[#eeece7] transition-colors duration-200 hover:border-[#eeece7] hover:bg-[#eeece7] hover:text-[#0a0a0b] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#eeece7] focus-visible:ring-offset-2 focus-visible:ring-offset-[#121214]"
         >
           View courses on {PARTNER.name}
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -170,14 +183,33 @@ function PartnerCard() {
         </a>
       </div>
 
-      <div className="flex flex-col justify-center border-t border-[#29292d] bg-[#1b1b1e] px-6 py-8 sm:px-10 sm:py-10 lg:col-span-2 lg:border-l lg:border-t-0">
-        <PromoCode />
+      <div className="relative border-t border-[#27272b] lg:col-span-2 lg:border-l lg:border-t-0">
+        <Perforation />
+        <div className="flex h-full flex-col justify-center bg-[#17171a] px-7 py-10 sm:px-10 sm:py-12">
+          <PromoStub />
+        </div>
       </div>
     </div>
   );
 }
 
-function PromoCode() {
+// Torn-ticket perforation between the panel and the promo stub — a small,
+// deliberate nod to the "coupon" nature of the content it separates.
+function Perforation() {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute -top-px left-0 hidden h-full w-px lg:block"
+      style={{
+        backgroundImage: "radial-gradient(circle at 50% 0, transparent 3px, #27272b 3.5px)",
+        backgroundSize: "1px 18px",
+        backgroundRepeat: "repeat-y",
+      }}
+    />
+  );
+}
+
+function PromoStub() {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -196,32 +228,32 @@ function PromoCode() {
   }
 
   return (
-    <div className="rounded-xl border border-[#4a3f28] bg-gradient-to-b from-[#d8a94e]/10 to-transparent p-6 sm:p-8">
-      <p className="flex items-center gap-1.5 text-sm font-medium text-[#e6c988]">
+    <div>
+      <p className="flex items-center gap-1.5 text-[13px] text-[#8a8883]">
         <Tag className="h-3.5 w-3.5" aria-hidden="true" />
         Partner offer
       </p>
 
-      <p className="mt-1.5 text-sm text-[#9a9a96]">{PARTNER.promoDescription}</p>
+      <p className="mt-2 text-sm leading-relaxed text-[#c3c1ba]">{PARTNER.promoDescription}</p>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <code className="rounded-md border border-[#4a3f28] bg-[#0a0a0b] px-3 py-2 font-mono text-lg font-semibold tracking-wide text-[#e6c988]">
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <code className="rounded-[4px] border border-[#3d3524] bg-[#0a0a0b] px-3 py-2 font-mono text-base tracking-wide text-[#b7986a]">
           {PARTNER.promoCode}
         </code>
         <button
           type="button"
           onClick={handleCopy}
           aria-label={copied ? "Promo code copied to clipboard" : `Copy promo code ${PARTNER.promoCode} to clipboard`}
-          className="inline-flex items-center gap-1.5 rounded-md bg-[#d8a94e] px-3 py-2 text-sm font-semibold text-[#0a0a0b] transition-colors hover:bg-[#e6c988] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d8a94e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1b1b1e]"
+          className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#3d3524] bg-[rgba(183,152,106,0.08)] px-3 py-2 text-sm font-medium text-[#b7986a] transition-colors duration-200 hover:bg-[#b7986a] hover:text-[#0a0a0b] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#b7986a] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17171a]"
         >
           {copied ? (
             <>
-              <Check className="h-4 w-4" aria-hidden="true" />
+              <Check className="h-3.5 w-3.5" aria-hidden="true" />
               Copied
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4" aria-hidden="true" />
+              <Copy className="h-3.5 w-3.5" aria-hidden="true" />
               Copy code
             </>
           )}
@@ -232,72 +264,31 @@ function PromoCode() {
 }
 
 // ---------------------------------------------------------------------------
-// Decorative background — ash/graphite tones only, no blue. Pure CSS/SVG,
-// no video file to host. Respects prefers-reduced-motion.
+// Type — one serif display face loaded on demand, scoped to this section.
 // ---------------------------------------------------------------------------
-interface FloatingIcon {
-  Icon: LucideIcon;
-  label: string;
-  className: string;
-  animation: "ai-float-a" | "ai-float-b" | "ai-drift";
-  delay: string;
+function FontImport() {
+  return (
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340..480&display=swap');
+    `}</style>
+  );
 }
 
-const FLOATING_ICONS: FloatingIcon[] = [
-  { Icon: Cpu, label: "Compute", className: "left-[6%] top-[16%]", animation: "ai-float-a", delay: "0s" },
-  { Icon: Network, label: "Networks", className: "right-[10%] top-[12%]", animation: "ai-float-b", delay: "0.6s" },
-  { Icon: Bot, label: "Agents", className: "right-[16%] bottom-[16%]", animation: "ai-float-a", delay: "1.4s" },
-  { Icon: Zap, label: "Inference", className: "left-[10%] bottom-[20%]", animation: "ai-drift", delay: "1.8s" },
-];
-
-function SectionBackground() {
+// ---------------------------------------------------------------------------
+// Background texture — fine grain + soft vignette, no color, no motion.
+// Deliberately quiet: the ticket perforation is the one bold move in this
+// design, so everything around it stays still and out of the way.
+// ---------------------------------------------------------------------------
+function SectionTexture() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <style>{`
-        @keyframes ai-float-a { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
-        @keyframes ai-float-b { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(12px) rotate(-4deg); } }
-        @keyframes ai-drift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(18px); } }
-        @keyframes ai-glow { 0%,100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.05); } }
-        .ai-float-a { animation: ai-float-a 7s ease-in-out infinite; }
-        .ai-float-b { animation: ai-float-b 8s ease-in-out infinite; }
-        .ai-drift { animation: ai-drift 9s ease-in-out infinite; }
-        .ai-glow { animation: ai-glow 7s ease-in-out infinite; }
-        @media (prefers-reduced-motion: reduce) {
-          .ai-float-a, .ai-float-b, .ai-drift, .ai-glow { animation: none !important; }
-        }
-      `}</style>
-
-      {/* soft ash-white glow, like light through fog — no color, just tone */}
-      <div className="ai-glow absolute -left-24 top-1/3 h-96 w-96 rounded-full bg-white/[0.04] blur-[110px]" />
-      <div
-        className="ai-glow absolute right-0 top-0 h-80 w-80 rounded-full bg-white/[0.03] blur-[100px]"
-        style={{ animationDelay: "2.5s" }}
-      />
-
-      {/* faint dot grid */}
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: "radial-gradient(#2a2a2e 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
-      {/* floating AI-domain icons, ash toned */}
-      {FLOATING_ICONS.map(({ Icon, label, className, animation, delay }) => (
-        <div
-          key={label}
-          className={`absolute hidden ${className} ${animation} md:flex`}
-          style={{ animationDelay: delay }}
-        >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#29292d] bg-[#131315]/80 shadow-sm backdrop-blur-sm">
-            <Icon className="h-5 w-5 text-[#7a7a76]" />
-          </div>
-        </div>
-      ))}
-
-      {/* fade to solid obsidian at the edges so foreground content stays readable */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/10 via-transparent to-[#0a0a0b]" />
+    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <svg className="absolute inset-0 h-full w-full opacity-[0.035]">
+        <filter id="ai-partner-grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#ai-partner-grain)" />
+      </svg>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(238,236,231,0.05),transparent_60%)]" />
     </div>
   );
 }
