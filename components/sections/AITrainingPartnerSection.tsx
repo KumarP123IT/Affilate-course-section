@@ -44,7 +44,7 @@ const PARTNER = {
   tagline: "Our official AI training partner",
   logo: "/partners/omkar-ai-innovation.svg", // EDIT ME — path to the real logo under /public
   description:
-    "Omkar AI Innovation delivers practical, industry-aligned training in AI, automation, and modern web development. Courses combine structured lessons with hands-on projects, helping learners build real, job-ready skills rather than just theory. The program is well suited for students, early-career developers, and working professionals looking to break into AI-driven roles.",
+    "Omkar AI Innovation delivers practical, industry-aligned training in AI, automation, and modern web development through structured lessons and hands-on projects. It's well suited for students, early-career developers, and working professionals looking to break into AI-driven roles.",
   website: "https://www.omkaraiinnovation.com/courses",
   highlights: [
     "Practical, project-based curriculum in AI, automation & web development",
