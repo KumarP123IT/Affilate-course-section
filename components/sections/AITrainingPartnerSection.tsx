@@ -44,15 +44,15 @@ const PARTNER = {
   tagline: "Our official AI training partner",
   logo: "/partners/omkar-ai-innovation.svg", // EDIT ME — path to the real logo under /public
   description:
-    "EDIT ME — 2–3 sentences: the AI courses they run, their teaching format (live/self-paced, cohort size), and who the courses are best suited for.",
+    "Omkar AI Innovation delivers practical, industry-aligned training in AI, automation, and modern web development. Courses combine structured lessons with hands-on projects, helping learners build real, job-ready skills rather than just theory. The program is well suited for students, early-career developers, and working professionals looking to break into AI-driven roles.",
   website: "https://www.omkaraiinnovation.com/courses",
   highlights: [
-    "EDIT ME — e.g. Live, instructor-led AI cohorts",
-    "EDIT ME — e.g. Hands-on projects with real datasets",
-    "EDIT ME — e.g. Certificate on completion",
+    "Practical, project-based curriculum in AI, automation & web development",
+    "Hands-on assignments using real tools and workflows",
+    "Certificate of completion recognized by the partner institute",
   ],
   promoCode: "EDITME20",
-  promoDescription: "EDIT ME — describe the discount this code unlocks, and how long it's valid.",
+  promoDescription: "Use this code to get an exclusive discount on any Omkar AI Innovation course, available to visitors of our site.",
 };
 
 // ---------------------------------------------------------------------------
